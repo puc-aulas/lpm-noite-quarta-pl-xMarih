@@ -1,5 +1,5 @@
 public class Client {
-    public int clientId;
-    public String name;
-    public String contactInfo;
+    private int clientId;
+    private String name;
+    private String contactInfo;
 }

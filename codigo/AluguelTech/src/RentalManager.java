@@ -1,3 +1,3 @@
 public class RentalManager {
-    public List<Rental> rentals;
+    private List<Rental> rentals;
 }

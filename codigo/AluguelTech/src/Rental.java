@@ -1,9 +1,8 @@
 public class Rental {
-    public int rentalId;
-    public Client client;
-    public List<Equipment> listEquipment;
-    public Date doDate;
-    public Date startDate;
-    public Date endDate;
-    
+    private int rentalId;
+    private Client client;
+    private List<Equipment> listEquipment;
+    private Date doDate;
+    private Date startDate;
+    private Date endDate;  
 }
