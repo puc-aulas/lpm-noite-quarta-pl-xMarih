@@ -1,6 +1,5 @@
 package com.alugueltech.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.alugueltech.entity.Equipment;
 import com.alugueltech.repository.EquipmentRepository;
-import com.alugueltech.vo.EquipmentVO;
 
 @Service
 public class EquipmentService {
@@ -16,32 +14,23 @@ public class EquipmentService {
 	@Autowired
 	EquipmentRepository equipmentRepository;
 
-	public void createEquipment(EquipmentVO equipmentVO) {
+	public Object createEquipment(Equipment equipment) {
 
 		try {
-			Equipment equipment = new Equipment();
-
-			equipment.setEquipmentCode(equipmentVO.getEquipmentCode());
-			equipment.setDailyRentalRate(equipmentVO.getDailyRentalRate());
-			equipment.setDescription(equipmentVO.getDescription());
-
 			equipmentRepository.save(equipment);
+			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 	}
 
-	public EquipmentVO readEquipment(Long idEquipment) {
+	public Equipment readEquipment(Long idEquipment) {
 
 		try {
 			Equipment equipment = equipmentRepository.findByEquipmentId(idEquipment);
 
-			EquipmentVO equipmentVO = new EquipmentVO();
-
-			equipmentVO.setDailyRentalRate(equipment.getDailyRentalRate());
-			equipmentVO.setDescription(equipment.getDescription());
-			equipmentVO.setEquipmentCode(equipment.getEquipmentCode());
-			return equipmentVO;
+			return equipment;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -49,38 +38,32 @@ public class EquipmentService {
 
 	}
 
-	public void updateEquipment(Long idEquipment, EquipmentVO equipmentVO) {
-		Equipment equipment = equipmentRepository.findByEquipmentId(idEquipment);
-		
-		equipment.setEquipmentCode(equipmentVO.getEquipmentCode());
-		equipment.setDailyRentalRate(equipmentVO.getDailyRentalRate());
-		equipment.setDescription(equipmentVO.getDescription());
+	public Object updateEquipment(Equipment equipment) {
+		try {
 
-		equipmentRepository.save(equipment);
-	}
-
-	public void deleteEquipment(Long idEquipment) {
-		Equipment equipment = equipmentRepository.findByEquipmentId(idEquipment);
-		equipmentRepository.delete(equipment);
-
-	}
-
-	public List<EquipmentVO> readAllEquipment() {
-		
-		List<Equipment> equipmentList = equipmentRepository.findAll();
-		List<EquipmentVO> equipmentVOList = new ArrayList<>();
-		
-		for (Equipment equipment : equipmentList) {
-			EquipmentVO equipmentVO = new EquipmentVO();
-			
-			equipmentVO.setDailyRentalRate(equipment.getDailyRentalRate());
-			equipmentVO.setDescription(equipment.getDescription());
-			equipmentVO.setEquipmentCode(equipment.getEquipmentCode());
-			
-			equipmentVOList.add(equipmentVO);
+			return equipmentRepository.save(equipment);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		
-		return equipmentVOList ;
+	}
+
+	public Object deleteEquipment(Long idEquipment) {
+		try {
+			Equipment equipment = equipmentRepository.findByEquipmentId(idEquipment);
+			equipmentRepository.delete(equipment);
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public List<Equipment> readAllEquipment() {
+
+		List<Equipment> equipmentList = equipmentRepository.findAll();
+
+		return equipmentList;
 	}
 
 }

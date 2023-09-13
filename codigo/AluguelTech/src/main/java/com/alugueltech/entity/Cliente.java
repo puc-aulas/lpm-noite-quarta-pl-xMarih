@@ -9,28 +9,30 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ato", schema = "public")
-@SequenceGenerator(name = "seq_id_equipment", sequenceName = "seq_id_equipment", allocationSize = 1)
+@Table(name = "client", schema = "public")
+@SequenceGenerator(name = "seq_client_id", sequenceName = "seq_client_id", allocationSize = 1)
 
-public class Client {
+public class Cliente {
 	
 	@Id
-	@Column(name = "id_client")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "id_equipment")
-	private Long clientId;
+	@Column(name = "client_id")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_client_id")
+	private Long clienteId;
 	
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "contactInfo")
+	@Column(name = "contact_info")
 	private String contactInfo;
 
-	public Long getClientId() {
-		return clientId;
+
+
+	public Long getClienteId() {
+		return clienteId;
 	}
 
-	public void setClientId(Long clientId) {
-		this.clientId = clientId;
+	public void setClienteId(Long clienteId) {
+		this.clienteId = clienteId;
 	}
 
 	public String getName() {
@@ -48,7 +50,7 @@ public class Client {
 	public void setContactInfo(String contactInfo) {
 		this.contactInfo = contactInfo;
 	}
-	
+
 
 
 }

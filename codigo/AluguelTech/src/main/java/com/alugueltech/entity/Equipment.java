@@ -2,22 +2,29 @@ package com.alugueltech.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ato", schema = "public")
+@Table(name = "equipment", schema = "public")
 @SequenceGenerator(name = "seq_equipment_id", sequenceName = "seq_equipment_id", allocationSize = 1)
 
 public class Equipment {
 
 	@Id
 	@Column(name = "equipment_id")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "equipment_id")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_equipment_id")
 	private Long equipmentId;
+	
+	@ManyToOne( fetch = FetchType.LAZY)
+	@JoinColumn(name = "material_id")
+	private Material material;
 	
 	@Column(name = "equipment_code")
 	private String equipmentCode;
@@ -28,11 +35,8 @@ public class Equipment {
 	@Column(name = "daily_rental_rate")
 	private Long dailyRentalRate;
 	
-	@Column(name = "equipment_type")
-	private String equipmentType;
-
-
-
+	@Column(name = "available")
+	private boolean available;
 
 
 	public Long getEquipmentId() {
@@ -43,12 +47,12 @@ public class Equipment {
 		this.equipmentId = equipmentId;
 	}
 
-	public String getEquipmentType() {
-		return equipmentType;
+	public Material getMaterial() {
+		return material;
 	}
 
-	public void setEquipmentType(String equipmentType) {
-		this.equipmentType = equipmentType;
+	public void setMaterial(Material material) {
+		this.material = material;
 	}
 
 	public String getEquipmentCode() {
@@ -74,5 +78,17 @@ public class Equipment {
 	public void setDailyRentalRate(Long dailyRentalRate) {
 		this.dailyRentalRate = dailyRentalRate;
 	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+
+
+
+
 
 }

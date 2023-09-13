@@ -5,13 +5,8 @@ import org.springframework.data.repository.query.Param;
 
 import com.alugueltech.entity.Equipment;
 
-public interface EquipmentRepository extends JpaRepository<Equipment, Long>{
+public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
 
-//	@Query(value = "FROM Equipment WHERE equipmentId = :id ")
-	
-	Equipment findByEquipmentId(@Param("id")Long id);
-
-	
-	
+	Equipment findByEquipmentId(@Param("id") Long id);
 
 }

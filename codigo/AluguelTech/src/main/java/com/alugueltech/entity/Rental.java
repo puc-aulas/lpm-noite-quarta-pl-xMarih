@@ -1,5 +1,10 @@
 package com.alugueltech.entity;
 
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,8 +13,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "ato", schema = "public")
@@ -20,65 +28,87 @@ public class Rental {
 	@Id
 	@Column(name = "id_rental")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "id_rental")
-	private Long rental;
-//	
-//	@OneToMany(mappedBy = "Rental", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	private List<Equipment> equipmentList;
+	private Long rentalId;
 	
 	@ManyToOne( fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_client")
-	private Client client;
+	private Cliente cliente;
 	
-	@Column(name = "equipment-code")
-	private String equipmentCode;
+	@OneToMany(mappedBy = "rental", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<RentalEquipment> equipments;
 	
-	@Column(name = "description")
-	private String description;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "do_date")
+	private Date doDate;
 	
-	@Column(name = "daily-rental-rate")
-	private Long dailyRentalRate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "start_date")
+	private Date startDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "end_Date")
+	private Date endDate;
 
-	public Long getRental() {
-		return rental;
+
+	public long calcularDiferencaEmDias() {
+        long diffInMillies = doDate.getTime() - startDate.getTime();
+        return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+    }
+	
+
+	public Long getRentalId() {
+		return rentalId;
 	}
 
-	public void setRental(Long rental) {
-		this.rental = rental;
+	public void setRentalId(Long rentalId) {
+		this.rentalId = rentalId;
 	}
 
-	public Client getClient() {
-		return client;
+
+
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public String getEquipmentCode() {
-		return equipmentCode;
+
+	public List<RentalEquipment> getEquipments() {
+		return equipments;
 	}
 
-	public void setEquipmentCode(String equipmentCode) {
-		this.equipmentCode = equipmentCode;
+	public void setEquipments(List<RentalEquipment> equipments) {
+		this.equipments = equipments;
 	}
 
-	public String getDescription() {
-		return description;
+	public Date getDoDate() {
+		return doDate;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDoDate(Date doDate) {
+		this.doDate = doDate;
 	}
 
-	public Long getDailyRentalRate() {
-		return dailyRentalRate;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public void setDailyRentalRate(Long dailyRentalRate) {
-		this.dailyRentalRate = dailyRentalRate;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 	
-	
+
 
 
 }

@@ -9,58 +9,58 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alugueltech.entity.Equipment;
-import com.alugueltech.service.EquipmentService;
+import com.alugueltech.entity.Rental;
+import com.alugueltech.service.RentalService;
 
 @RestController
-@RequestMapping("/equipment")
-public class EquipmentController {
+@RequestMapping("/rental")
+public class RentalController {
 
 	@Autowired
-	private EquipmentService equipmentService;
+	private RentalService rentalService;
 
 	@PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Object> createEquipment(@RequestBody Equipment equipment) {
+	private ResponseEntity<Object> createRental(@RequestBody Rental Rental) {
 		try {
-			return new ResponseEntity<Object>(equipmentService.createEquipment(equipment), HttpStatus.OK);
+			return new ResponseEntity<Object>(rentalService.createRental(Rental), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PostMapping(path = "/read")
-	private ResponseEntity<Object> readEquipment(Long idEquipment) {
+	private ResponseEntity<Object> readRental(Long idRental) {
 		try {
-			return new ResponseEntity<Object>(equipmentService.readEquipment(idEquipment), HttpStatus.OK);
+			return new ResponseEntity<Object>(rentalService.readRental(idRental), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PostMapping(path = "/readAll", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Object> readAllEquipment() {
+	private ResponseEntity<Object> readAllRental() {
 		try {
-			return new ResponseEntity<Object>(equipmentService.readAllEquipment(), HttpStatus.OK);
+			return new ResponseEntity<Object>(rentalService.readAllRental(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Object> updateEquipment(@RequestBody Equipment equipment) {
+	private ResponseEntity<Object> updateRental(@RequestBody Rental Rental) {
 
 		try {
-			return new ResponseEntity<Object>(equipmentService.updateEquipment(equipment), HttpStatus.OK);
+			return new ResponseEntity<Object>(rentalService.updateRental(Rental), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PostMapping(path = "/delete")
-	private ResponseEntity<Object> deleteEquipment(Long idEquipment) {
+	private ResponseEntity<Object> deleteRental(Long idRental) {
 		try {
 
-			return new ResponseEntity<Object>(equipmentService.deleteEquipment(idEquipment), HttpStatus.OK);
+			return new ResponseEntity<Object>(rentalService.deleteRental(idRental), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
