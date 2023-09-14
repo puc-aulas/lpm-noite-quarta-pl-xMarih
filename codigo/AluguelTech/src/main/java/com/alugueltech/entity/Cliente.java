@@ -32,7 +32,7 @@ public class Cliente implements Serializable {
 	@Column(name = "contact_info")
 	private String contactInfo;
 	
-	@OneToMany(mappedBy = "contaConveniado", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Rental> rentals;
 
 	public Long getClienteId() {
