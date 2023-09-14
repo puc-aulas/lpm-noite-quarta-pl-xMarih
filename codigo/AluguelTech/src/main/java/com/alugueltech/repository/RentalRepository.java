@@ -10,11 +10,13 @@ import com.alugueltech.entity.Rental;
 
 public interface RentalRepository extends JpaRepository<Rental, Long>{
 
+	@Query("FROM Rental r where r.rentalId = :rentalId")
 	Rental findByRentalId(@Param("rentalId")Long rentalId);
-
-	@Query(value = "FROM Rental r WHERE r.cliente.clienteId = :clienteId ")
-	List<Rental> listarAlugueisPorCliente(@Param("clienteId")Long clienteId);
 	
+	
+	
+
+
 	
 
 }	

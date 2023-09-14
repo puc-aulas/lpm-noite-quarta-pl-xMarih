@@ -1,5 +1,8 @@
 package com.alugueltech.entity;
 
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,18 +14,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.springframework.boot.autoconfigure.integration.IntegrationProperties.RSocket.Client;
+
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "equipment", schema = "public")
 @SequenceGenerator(name = "seq_equipment_id", sequenceName = "seq_equipment_id", allocationSize = 1)
 
-public class Equipment {
+public class Equipment implements Serializable {
 
 	@Id
 	@Column(name = "equipment_id")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_equipment_id")
 	private Long equipmentId;
 	
-	@ManyToOne( fetch = FetchType.LAZY)
+	@ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL )
 	@JoinColumn(name = "material_id")
 	private Material material;
 	

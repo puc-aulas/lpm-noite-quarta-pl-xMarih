@@ -1,8 +1,8 @@
 package com.alugueltech.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -19,19 +20,23 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
-@Table(name = "ato", schema = "public")
-@SequenceGenerator(name = "seq_id_rental", sequenceName = "seq_id_rental", allocationSize = 1)
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class Rental {
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "rental", schema = "public")
+@SequenceGenerator(name = "seq_rental_id", sequenceName = "seq_rental_id", allocationSize = 1)
+
+public class Rental implements Serializable{
 	
 	@Id
-	@Column(name = "id_rental")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "id_rental")
+	@Column(name = "rental_id")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_rental_id")
 	private Long rentalId;
 	
-	@ManyToOne( fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_client")
+	@ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "client_id")
 	private Cliente cliente;
 	
 	@OneToMany(mappedBy = "rental", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -50,10 +55,7 @@ public class Rental {
 	private Date endDate;
 
 
-	public long calcularDiferencaEmDias() {
-        long diffInMillies = doDate.getTime() - startDate.getTime();
-        return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-    }
+
 	
 
 	public Long getRentalId() {

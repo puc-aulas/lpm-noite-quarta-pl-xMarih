@@ -1,5 +1,7 @@
 package com.alugueltech.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,11 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "client", schema = "public")
 @SequenceGenerator(name = "seq_client_id", sequenceName = "seq_client_id", allocationSize = 1)
 
-public class Cliente {
+public class Cliente implements Serializable {
 	
 	@Id
 	@Column(name = "client_id")

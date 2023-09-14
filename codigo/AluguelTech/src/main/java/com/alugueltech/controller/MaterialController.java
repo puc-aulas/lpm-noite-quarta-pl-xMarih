@@ -10,58 +10,58 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alugueltech.entity.Cliente;
-import com.alugueltech.service.ClienteService;
+import com.alugueltech.entity.Material;
+import com.alugueltech.service.MaterialService;
 
 @RestController
-@RequestMapping("/client")
-public class ClienteController {
+@RequestMapping("/material")
+public class MaterialController {
 
 	@Autowired
-	private ClienteService clientService;
+	private MaterialService materialService;
 
 	@PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Object> createCliente(@RequestBody Cliente cliente) {
+	private ResponseEntity<Object> createMaterial(@RequestBody Material material) {
 		try {
-			return new ResponseEntity<Object>(clientService.createCliente(cliente), HttpStatus.OK);
+			return new ResponseEntity<Object>(materialService.createMaterial(material), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PostMapping(path = "/read")
-	private ResponseEntity<Object> readCliente(@RequestParam Long idCliente) {
+	private ResponseEntity<Object> readMaterial(@RequestParam Long idMaterial) {
 		try {
-			return new ResponseEntity<Object>(clientService.readCliente(idCliente), HttpStatus.OK);
+			return new ResponseEntity<Object>(materialService.readMaterial(idMaterial), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PostMapping(path = "/readAll", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Object> readAllCliente() {
+	private ResponseEntity<Object> readAllMaterial() {
 		try {
-			return new ResponseEntity<Object>(clientService.readAllCliente(), HttpStatus.OK);
+			return new ResponseEntity<Object>(materialService.readAllMaterial(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Object> updateCliente(@RequestBody Cliente cliente) {
+	private ResponseEntity<Object> updateMaterial(@RequestBody Material material) {
 
 		try {
-			return new ResponseEntity<Object>(clientService.updateCliente(cliente), HttpStatus.OK);
+			return new ResponseEntity<Object>(materialService.updateMaterial(material), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PostMapping(path = "/delete")
-	private ResponseEntity<Object> deleteCliente(@RequestParam Long idCliente) {
+	private ResponseEntity<Object> deleteMaterial(@RequestParam Long idMaterial) {
 		try {
 
-			return new ResponseEntity<Object>(clientService.deleteCliente(idCliente), HttpStatus.OK);
+			return new ResponseEntity<Object>(materialService.deleteMaterial(idMaterial), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

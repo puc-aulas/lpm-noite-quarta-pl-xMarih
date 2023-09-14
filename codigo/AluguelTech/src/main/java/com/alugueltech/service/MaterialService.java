@@ -17,8 +17,8 @@ public class MaterialService {
 	public Object createMaterial(Material material) {
 
 		try {
-			materialRepository.save(material);
-			return null;
+			
+			return materialRepository.save(material);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

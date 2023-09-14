@@ -8,5 +8,7 @@ import com.alugueltech.entity.Equipment;
 public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
 
 	Equipment findByEquipmentId(@Param("id") Long id);
+	
+	
 
 }

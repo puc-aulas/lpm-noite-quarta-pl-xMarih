@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alugueltech.entity.Equipment;
@@ -29,7 +30,7 @@ public class EquipmentController {
 	}
 
 	@PostMapping(path = "/read")
-	private ResponseEntity<Object> readEquipment(Long idEquipment) {
+	private ResponseEntity<Object> readEquipment(@RequestParam Long idEquipment) {
 		try {
 			return new ResponseEntity<Object>(equipmentService.readEquipment(idEquipment), HttpStatus.OK);
 		} catch (Exception e) {
@@ -57,7 +58,7 @@ public class EquipmentController {
 	}
 
 	@PostMapping(path = "/delete")
-	private ResponseEntity<Object> deleteEquipment(Long idEquipment) {
+	private ResponseEntity<Object> deleteEquipment(@RequestParam Long idEquipment) {
 		try {
 
 			return new ResponseEntity<Object>(equipmentService.deleteEquipment(idEquipment), HttpStatus.OK);
