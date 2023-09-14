@@ -45,7 +45,6 @@ public class Equipment implements Serializable {
 	@Column(name = "available")
 	private boolean available;
 
-
 	public Long getEquipmentId() {
 		return equipmentId;
 	}
@@ -93,9 +92,5 @@ public class Equipment implements Serializable {
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
-
-
-
-
 
 }

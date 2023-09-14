@@ -39,8 +39,9 @@ public class Rental implements Serializable{
 	@JoinColumn(name = "client_id")
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy = "rental", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<RentalEquipment> equipments;
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "equipment_id")
+	private Equipment equipment;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "do_date")
@@ -54,10 +55,6 @@ public class Rental implements Serializable{
 	@Column(name = "end_Date")
 	private Date endDate;
 
-
-
-	
-
 	public Long getRentalId() {
 		return rentalId;
 	}
@@ -66,24 +63,20 @@ public class Rental implements Serializable{
 		this.rentalId = rentalId;
 	}
 
-
-
 	public Cliente getCliente() {
 		return cliente;
 	}
-
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 
-
-	public List<RentalEquipment> getEquipments() {
-		return equipments;
+	public Equipment getEquipment() {
+		return equipment;
 	}
 
-	public void setEquipments(List<RentalEquipment> equipments) {
-		this.equipments = equipments;
+	public void setEquipment(Equipment equipment) {
+		this.equipment = equipment;
 	}
 
 	public Date getDoDate() {
@@ -109,8 +102,5 @@ public class Rental implements Serializable{
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
-
-
 
 }
