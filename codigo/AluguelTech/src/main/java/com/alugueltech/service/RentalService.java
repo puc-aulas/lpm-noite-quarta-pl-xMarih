@@ -7,17 +7,17 @@ import java.util.concurrent.TimeUnit;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
+import com.alugueltech.entity.Cliente;
+import com.alugueltech.entity.Equipment;
 import com.alugueltech.entity.Rental;
-import com.alugueltech.entity.RentalEquipment;
 import com.alugueltech.repository.ClienteRepository;
-import com.alugueltech.repository.EquipmentClassRepository;
 import com.alugueltech.repository.EquipmentRepository;
-import com.alugueltech.repository.RentalEquipmentRepository;
 import com.alugueltech.repository.RentalRepository;
 import com.alugueltech.vo.RentalVo;
 
@@ -28,89 +28,89 @@ public class RentalService {
 	RentalRepository rentalRepository;
 
 	@Autowired
-	RentalEquipmentRepository rentalEquipmentRepository;
-
-	@Autowired
 	ClienteRepository clienteRepository;
 
 	@Autowired
 	EquipmentRepository equipmentRepository;
 
-	EquipmentClassRepository equipmentClassRepository;
+	@PersistenceContext
+	private EntityManager entityManager;
 
-	public List<Rental> listRentalByClient(Long clienteId) {
-		return rentalRepository.findAll();
-	}
+	//incluindo o faturamento total.
+	public Long totalRevenueByMonth(int month) {
 
-	public Object monthlyReport() {
-		List<Rental> listRental = new ArrayList<Rental>();
-		listRental = rentalRepository.findAll();
+		Long totalRevenue = 0L;
+		List<Rental> rentalsByMonth = new ArrayList<Rental>();
+		rentalsByMonth = findRentalsByMonth(month);
 
-		for (Rental rental : listRental) {
-			for (RentalEquipment rentalEquipment : rental.getEquipments()) {
-
-			}
+		for (Rental rental : rentalsByMonth) {
+			totalRevenue = (daysDiference(rental) * rental.getEquipment().getDailyRentalRate());
 		}
-
-		return null;
+		return totalRevenue;
 	}
 
-	public Long rentalCalculatorlById(Long rentalId) {
-
-		Rental rental = rentalRepository.findByRentalId(rentalId);
-		// Long diferencaEmDias = calcularDiferencaEmDias(rental);
-
-		long diffInMillies = rental.getDoDate().getTime() - rental.getStartDate().getTime();
-		Long diferencaEmDias = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-
-		Long valorTotal = (long) 0;
-
-		for (RentalEquipment rentalEquipment : rental.getEquipments()) {
-			valorTotal += rentalEquipment.getEquipment().getDailyRentalRate() * diferencaEmDias;
-		}
-
-		return valorTotal;
-	}
-
-	public long calcularDiferencaEmDias(Rental rental) {
+	public long daysDiference(Rental rental) {
 		long diffInMillies = rental.getDoDate().getTime() - rental.getStartDate().getTime();
 		return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 	}
 
-	public Object createRental(RentalVo rentalVo) {
+	//Fornecer um relatório mensal que liste todos os aluguéis do mês, 
+	public Object monthlyReport(int month) {
+
+		return findRentalsByMonth(month);
+	}
+
+	public List<Rental> findRentalsByMonth(int month) {
+		String consulta = "SELECT r FROM Rental r " + "WHERE FUNCTION('MONTH', r.startDate) = :month";
+
+		TypedQuery<Rental> query = entityManager.createQuery(consulta, Rental.class);
+		query.setParameter("month", month);
+		return query.getResultList();
+	}
+
+	//Permitir a consulta rápida dos aluguéis atuais e passados de um cliente específico.
+	public List<Rental> findRentalByClient(Long clientId) {
+
+		Cliente cliente = clienteRepository.findByClienteId(clientId);
+
+		return rentalRepository.cliente(cliente);
+	}
+
+	// Calcular e mostrar o valor total do aluguel para cada registro.
+
+	public Long rentalCalculatorlById(Long rentalId) {
+
+		Rental rental = rentalRepository.findByRentalId(rentalId);
+
+		long diffInMillies = rental.getDoDate().getTime() - rental.getStartDate().getTime();
+		Long diferencaEmDias = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+		Long valorTotal = diferencaEmDias * rental.getEquipment().getDailyRentalRate();
+
+		return valorTotal;
+	}
+
+	// Registrar novos aluguéis, incluindo todas as informações necessárias
+	public Object createRental(RentalVo rentalvo) {
 
 		try {
-
 			Rental rental = new Rental();
+			rental.setCliente(clienteRepository.findByClienteId(rentalvo.getIdCliente()));
+			rental.setEquipment(equipmentRepository.findByEquipmentId(rentalvo.getIdEquipment()));
+			rental.setDoDate(rentalvo.getDoDate());
+			rental.setStartDate(rentalvo.getStartDate());
 
-			rental.setCliente(clienteRepository.findByClienteId(rentalVo.getIdCliente()));
-			rental.setDoDate(rentalVo.getDoDate());
-			rental.setEndDate(rentalVo.getEndDate());
-			rental.setStartDate(rentalVo.getStartDate());
-
-			List<RentalEquipment> equipmentsList = new ArrayList<RentalEquipment>();
-			for (Long idEquipment : rentalVo.getIdEquipments()) {
-				RentalEquipment rentalEquipment = new RentalEquipment();
-
-				rentalEquipment.setEquipment(equipmentRepository.findByEquipmentId(idEquipment));
-				rentalEquipment.setRental(rental);
-				equipmentsList.add(rentalEquipment);
-			}
-			rental.setEquipments(equipmentsList);
-			rentalRepository.save(rental);
-			return null;
+			return rentalRepository.save(rental);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-
+//Manter um registro dos aluguéis passados, incluindo informações sobre o cliente, o equipamento e as
+//	datas de início e término.
 	public Rental readRental(Long idRental) {
 
 		try {
-			Rental rental = rentalRepository.findByRentalId(idRental);
-
-			return rental;
+			return rentalRepository.findByRentalId(idRental);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -143,6 +143,14 @@ public class RentalService {
 
 		return rentalRepository.findAll();
 
+	}
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 }

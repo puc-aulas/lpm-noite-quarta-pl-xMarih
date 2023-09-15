@@ -31,9 +31,7 @@ public class Cliente implements Serializable {
 	
 	@Column(name = "contact_info")
 	private String contactInfo;
-	
-	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Rental> rentals;
+
 
 	public Long getClienteId() {
 		return clienteId;
@@ -58,13 +56,6 @@ public class Cliente implements Serializable {
 	public void setContactInfo(String contactInfo) {
 		this.contactInfo = contactInfo;
 	}
-
-	public List<Rental> getRentals() {
-		return rentals;
-	}
-
-	public void setRentals(List<Rental> rentals) {
-		this.rentals = rentals;
-	} 
+ 
 
 }

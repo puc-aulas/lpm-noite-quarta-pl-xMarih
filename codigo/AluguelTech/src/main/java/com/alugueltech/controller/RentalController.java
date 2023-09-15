@@ -21,17 +21,27 @@ public class RentalController {
 	@Autowired
 	private RentalService rentalService;
 
-	@PostMapping(path = "/list-rental-by-client")
-	private ResponseEntity<Object> listRentalByClient(Long clienteId) {
+
+	@PostMapping(path = "/total-revenue")
+	private ResponseEntity<Object> totalRevenueByMonth(@RequestParam int month) {
 		try {
-			return new ResponseEntity<Object>(rentalService.listRentalByClient(clienteId), HttpStatus.OK);
+			return new ResponseEntity<Object>(rentalService.totalRevenueByMonth(month), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+	
+	@PostMapping(path = "/rental-by-client")
+	private ResponseEntity<Object> findRentalByClient(@RequestParam Long clientId) {
+		try {
+			return new ResponseEntity<Object>(rentalService.findRentalByClient(clientId), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@PostMapping(path = "/rental-calculator")
-	private ResponseEntity<Object> rentalCalculatorlById(Long rentalId) {
+	private ResponseEntity<Object> rentalCalculatorlById(@RequestParam Long rentalId) {
 		try {
 			return new ResponseEntity<Object>(rentalService.rentalCalculatorlById(rentalId), HttpStatus.OK);
 		} catch (Exception e) {
@@ -40,18 +50,18 @@ public class RentalController {
 	}
 
 	@PostMapping(path = "/monthly-report")
-	private ResponseEntity<Object> monthlyReport() {
+	private ResponseEntity<Object> monthlyReport(@RequestParam int month) {
 		try {
-			return new ResponseEntity<Object>(rentalService.monthlyReport(), HttpStatus.OK);
+			return new ResponseEntity<Object>(rentalService.monthlyReport(month), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+//////////////////////////////////////////////////////////////////////
 	@PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Object> createRental(@RequestBody RentalVo rentalVo) {
+	private ResponseEntity<Object> createRental(@RequestBody RentalVo rentalvo) {
 		try {
-			return new ResponseEntity<Object>(rentalService.createRental(rentalVo), HttpStatus.OK);
+			return new ResponseEntity<Object>(rentalService.createRental(rentalvo), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

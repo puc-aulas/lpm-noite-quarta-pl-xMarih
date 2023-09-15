@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alugueltech.entity.Equipment;
 import com.alugueltech.service.EquipmentService;
+import com.alugueltech.vo.EquipmentVO;
 
 @RestController
 @RequestMapping("/equipment")
@@ -21,9 +22,9 @@ public class EquipmentController {
 	private EquipmentService equipmentService;
 
 	@PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Object> createEquipment(@RequestBody Equipment equipment) {
+	private ResponseEntity<Object> createEquipment(@RequestBody EquipmentVO equipmentvo) {
 		try {
-			return new ResponseEntity<Object>(equipmentService.createEquipment(equipment), HttpStatus.OK);
+			return new ResponseEntity<Object>(equipmentService.createEquipment(equipmentvo), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

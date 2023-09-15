@@ -5,10 +5,11 @@ import java.util.List;
 
 public class RentalVo {
 	private Long idCliente;
-	private List<Long> idEquipments;
+	private Long idEquipment;
 	private Date doDate;
 	private Date startDate;
-	private Date endDate;
+
+	
 	
 	public Long getIdCliente() {
 		return idCliente;
@@ -16,11 +17,11 @@ public class RentalVo {
 	public void setIdCliente(Long idCliente) {
 		this.idCliente = idCliente;
 	}
-	public List<Long> getIdEquipments() {
-		return idEquipments;
+	public Long getIdEquipment() {
+		return idEquipment;
 	}
-	public void setIdEquipments(List<Long> idEquipments) {
-		this.idEquipments = idEquipments;
+	public void setIdEquipment(Long idEquipment) {
+		this.idEquipment = idEquipment;
 	}
 	public Date getDoDate() {
 		return doDate;
@@ -34,12 +35,8 @@ public class RentalVo {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+
+	
 
 	
 }

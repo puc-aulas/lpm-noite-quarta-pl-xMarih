@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.alugueltech.entity.Equipment;
 import com.alugueltech.repository.EquipmentRepository;
+import com.alugueltech.repository.MaterialRepository;
+import com.alugueltech.vo.EquipmentVO;
 
 @Service
 public class EquipmentService {
@@ -14,11 +16,20 @@ public class EquipmentService {
 	@Autowired
 	EquipmentRepository equipmentRepository;
 
-	public Object createEquipment(Equipment equipment) {
+	@Autowired
+	MaterialRepository materialRepository;
+
+	public Object createEquipment(EquipmentVO equipmentvo) {
 
 		try {
-			equipmentRepository.save(equipment);
-			return null;
+			Equipment equipment = new Equipment();
+			equipment.setAvailable(equipmentvo.isAvailable());
+			equipment.setDailyRentalRate(equipmentvo.getDailyRentalRate());
+			equipment.setDescription(equipmentvo.getDescription());
+			equipment.setEquipmentCode(equipmentvo.getEquipmentCode());
+			equipment.setMaterial(materialRepository.findByMaterialId(equipmentvo.getMaterialId()));
+
+			return equipmentRepository.save(equipment);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

@@ -35,11 +35,11 @@ public class Rental implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_rental_id")
 	private Long rentalId;
 	
-	@ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "client_id")
 	private Cliente cliente;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "equipment_id")
 	private Equipment equipment;
 	

@@ -17,8 +17,8 @@ public class ClienteService {
 	public Object createCliente(Cliente cliente) {
 
 		try {
-			clienteRepository.save(cliente);
-			return null;
+			
+			return clienteRepository.save(cliente);
 		} catch (Exception e) {
 			e.printStackTrace();
  			return null;
