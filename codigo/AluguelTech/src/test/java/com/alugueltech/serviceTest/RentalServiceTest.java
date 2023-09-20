@@ -20,12 +20,17 @@ class RentalServiceTest {
 	
 	@Test
 	void totalRevenueByMonthTest() {
-		assertThat(rentalService.totalRevenueByMonth(9)).isEqualTo(8100);
+
+		assertNull(rentalService.totalRevenueByMonth(15));
+		assertNotNull(rentalService.totalRevenueByMonth(9));
+		assertNotEquals(0, rentalService.totalRevenueByMonth(9));
+		assertEquals(8100, rentalService.totalRevenueByMonth(9));
 		
 	}
 	@Test
 	void rentalCalculatorlByIdTest() {
-		assertThat(rentalService.rentalCalculatorlById((long) 2)).isEqualTo(29700);
+		assertNull(rentalService.rentalCalculatorlById(0));
+		assertEquals(29700, rentalService.rentalCalculatorlById((long) 2));
 	}
 	
 	@Test
@@ -63,11 +68,6 @@ class RentalServiceTest {
 			assertThat(rental.getEndDate()).isNotNull();
 		}
 	}
-	
-
-	
-	 
-
 	
 	
 }
