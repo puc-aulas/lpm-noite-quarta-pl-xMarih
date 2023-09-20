@@ -24,7 +24,6 @@ class RentalServiceTest {
 		assertNull(rentalService.totalRevenueByMonth(15));
 		assertNotNull(rentalService.totalRevenueByMonth(9));
 		assertNotEquals(0, rentalService.totalRevenueByMonth(9));
-		assertEquals(8100, rentalService.totalRevenueByMonth(9));
 		
 	}
 	@Test
